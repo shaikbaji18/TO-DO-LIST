@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}ToDo Lists{% endblock %}
+
+{% block content %}
+    <h2>Your ToDo Lists</h2>
+    <ul>
+        {% for list in lists %}
+            <li>
+                <a href="{% url 'list_detail' list.id %}">{{ list.name }}</a>
+                <form method="post" action="{% url 'delete_list' list.id %}" class="delete-form">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        {% empty %}
+            <li>No lists yet.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'add_list' %}">Add New List</a>
+{% endblock %}

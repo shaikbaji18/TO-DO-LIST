@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Add New List{% endblock %}
+
+{% block content %}
+    <h2 class="interactive-element">Add New List</h2>
+    <form method="post" style="margin-top: 30px;">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Enter list name" required style="margin-right: 10px; width: 300px;">
+        <button type="submit" class="interactive-element" style="background: linear-gradient(45deg, #4CAF50, #388E3C); padding: 12px 25px;">Create List</button>
+    </form>
+    <a href="{% url 'home' %}" class="interactive-element" style="display: inline-block; margin-top: 20px; padding: 12px 20px; background: linear-gradient(45deg, #9E9E9E, #757575); border-radius: 8px; color: white; text-decoration: none; transition: all 0.3s ease;">Cancel</a>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ todo_list.name }} - Items{% endblock %}
+
+{% block content %}
+    <h2 class="interactive-element">{{ todo_list.name }}</h2>
+    <ul>
+        {% for item in items %}
+            <li class="interactive-element" style="{% if item.is_active %}opacity: 0.7; text-decoration: line-through;{% endif %}">
+                <span>{{ item.name }}</span>
+                {% if item.is_active %}
+                    <span style="color: #4CAF50; font-weight: bold;">✓ Active</span>
+                {% else %}
+                    <span style="color: #ff9800; font-weight: bold;">○ Inactive</span>
+                {% endif %}
+                <form method="post" action="{% url 'toggle_item' item.id %}" class="toggle-form">
+                    {% csrf_token %}
+                    <button type="submit" class="interactive-element" style="background: {% if item.is_active %}linear-gradient(45deg, #ff9800, #f57c00){% else %}linear-gradient(45deg, #4CAF50, #388E3C){% endif %};">{% if item.is_active %}Mark Inactive{% else %}Mark Active{% endif %}</button>
+                </form>
+                <form method="post" action="{% url 'delete_item' item.id %}" class="delete-form">
+                    {% csrf_token %}
+                    <button type="submit" class="interactive-element" style="background: linear-gradient(45deg, #f44336, #d32f2f);">Delete</button>
+                </form>
+            </li>
+        {% empty %}
+            <li class="interactive-element">No items yet. Add your first task!</li>
+        {% endfor %}
+    </ul>
+    <form method="post" action="{% url 'add_item' todo_list.id %}" style="margin-top: 30px;">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Add new item" required style="margin-right: 10px;">
+        <button type="submit" class="interactive-element" style="background: linear-gradient(45deg, #2196F3, #1976D2);">Add Item</button>
+    </form>
+    <a href="{% url 'home' %}" style="display: inline-block; margin-top: 20px; padding: 12px 20px; background: linear-gradient(45deg, #9C27B0, #7B1FA2); border-radius: 8px; color: white; text-decoration: none;">Back to Lists</a>
+{% endblock %}
